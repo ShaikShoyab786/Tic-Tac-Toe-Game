@@ -1,0 +1,524 @@
+/* assets/css/styles.css
+   Tic-Tac-Toe — attractive modern UI (glassmorphism + gradients)
+   Keep comments for learning; remove if you minify later.
+*/
+
+/* --------- Theme variables --------- */
+:root{
+  --bg-1: #0f1226;
+  --bg-2: #1b1930;
+  --panel: rgba(255,255,255,0.06);
+  --panel-2: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.08);
+  --accent-1: #7c5cff;    /* purple */
+  --accent-2: #00d4a8;    /* teal */
+  --accent-3: #ffd166;    /* warm yellow */
+  --muted: rgba(233,233,241,0.7);
+  --win-glow: rgba(0, 212, 143, 0.18);
+  --danger: #ff6b6b;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --shadow-soft: 0 10px 30px rgba(4,6,15,0.6);
+  --glass-blur: 8px;
+  --max-width: 560px;
+}
+
+/* ========= Light Theme Overrides ========= */
+body.light-theme{
+  --bg-1: #f4f5ff;
+  --bg-2: #dde1ff;
+  --panel: rgba(255,255,255,0.9);
+  --panel-2: rgba(255,255,255,0.8);
+  --glass-border: rgba(83,90,180,0.25);
+  --muted: #3c3f5a;
+  --shadow-soft: 0 10px 30px rgba(115,123,200,0.3);
+}
+
+/* Adjust text color in light mode */
+body.light-theme .container{
+  color: var(--muted);
+}
+
+body.light-theme .status{
+  border-color: rgba(83,90,180,0.25);
+}
+
+body.light-theme .scoreboard{
+  background: rgba(255,255,255,0.96);
+  border-color: rgba(83,90,180,0.25);
+}
+
+body.light-theme .score-label{
+  color: #3c4060;
+}
+body.light-theme .score-value{
+  color: #222743;
+}
+
+body.light-theme .cell{
+  box-shadow: 0 4px 10px rgba(143, 153, 240, 0.3);
+}
+
+body.light-theme .footer{
+  color: rgba(60,63,90,0.7);
+}
+
+/* ==== Better contrast for light theme elements ==== */
+
+/* Main title & subtitle */
+body.light-theme .title{
+  color: #222743;
+  text-shadow: none;
+}
+
+body.light-theme .subtitle{
+  color: #4a4f76;
+}
+
+/* Status text + strong highlight */
+body.light-theme .status{
+  color: #323654;
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.88));
+}
+
+body.light-theme .status strong{
+  color: #222743;
+  background: linear-gradient(90deg, rgba(235,238,255,0.9), rgba(220,226,255,0.9));
+  box-shadow: none;
+}
+
+/* ===== Scoreboard cards ===== */
+.scoreboard{
+  margin: 10px 0;
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.score-card{
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.score-label{
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.score-value{
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* individual accents */
+.score-x .score-value{ color: var(--accent-1); }
+.score-o .score-value{ color: var(--accent-3); }
+.score-draw .score-value{ color: #9be7ff; }
+
+/* bump animation when score increases */
+.score-value.bump{
+  animation: scoreBump 0.35s ease-out;
+}
+
+@keyframes scoreBump{
+  0%   { transform: scale(1);   }
+  40%  { transform: scale(1.25);}
+  100% { transform: scale(1);   }
+}
+
+/* Scoreboard text & numbers */
+body.light-theme .scoreboard{
+  color: #2f3352;
+}
+
+body.light-theme .scoreboard span{
+  color: #222743;
+}
+
+/* Buttons (Reset, Clear Scores, etc.) */
+body.light-theme .btn{
+  background: linear-gradient(90deg, #f4f6ff, #e3e7ff);
+  border-color: rgba(83,90,180,0.4);
+  color: #252948;
+  box-shadow: 0 4px 12px rgba(122,130,210,0.25);
+}
+
+body.light-theme .btn:hover{
+  filter: brightness(1.03);
+  transform: translateY(-2px);
+}
+
+/* Toggle label text (Start with O, Light theme) */
+body.light-theme .toggle{
+  color: #33375a;
+}
+
+/* Board background subtle light panel */
+body.light-theme .board{
+  background: transparent;
+}
+
+/* Cells: keep markers punchy on light bg */
+body.light-theme .cell{
+  background: linear-gradient(180deg, #ffffff, #f2f3ff);
+  border-color: rgba(140,147,220,0.35);
+}
+
+/* X / O colors stay strong */
+body.light-theme .cell.x{
+  color: #5a3fd9; /* refined purple */
+}
+
+body.light-theme .cell.o{
+  color: #d99725; /* warm orange-yellow */
+}
+
+/* Winning highlight in light mode */
+body.light-theme .cell.win{
+  box-shadow: 0 0 20px rgba(0, 180, 110, 0.45);
+  outline-color: rgba(0, 180, 110, 0.28);
+}
+
+/* Theme toggle section */
+body.light-theme .theme-toggle{
+  color: #33375a;
+}
+
+
+/* --------- Base & layout --------- */
+html, body{
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;   /* center horizontally */
+  align-items: flex-start;   /* start from top instead of perfect center */
+  padding: 32px 20px;        /* top/bottom padding but smaller */
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:
+    radial-gradient(60rem 40rem at -10% -10%, rgba(124,92,255,0.12), transparent 8%),
+    radial-gradient(50rem 40rem at 110% 110%, rgba(0,212,168,0.06), transparent 8%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  color: var(--muted);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* Main container */
+.container{
+  width:100%;
+  max-width: var(--max-width);
+  margin: 12px;
+  padding: 20px;
+  border-radius: calc(var(--radius-lg) + 6px);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur));
+}
+
+/* header */
+.header{
+  text-align:center;
+  margin-bottom: 14px;
+}
+.title{
+  margin:0;
+  font-size: clamp(1.7rem, 3.2vw, 2.2rem);
+  letter-spacing: 0.6px;
+  color: white;
+  text-shadow: 0 6px 24px rgba(124,92,255,0.08);
+}
+.subtitle{
+  margin:6px 0 0;
+  font-size: 0.92rem;
+  color: rgba(233,233,241,0.78);
+  opacity:0.95;
+}
+
+/* status panel (current player / result) */
+.status{
+  margin: 14px 0;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  border:1px solid rgba(255,255,255,0.04);
+  text-align:center;
+  font-weight:600;
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.status strong{
+  color: white;
+  padding:3px 8px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45) inset;
+}
+
+/* board wrapper */
+.board{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 20px 0;
+  align-items: stretch;
+  justify-items: stretch;
+}
+
+/* each cell */
+.cell{
+  aspect-ratio: 1/1;                /* perfect square */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius: 16px;
+  font-weight:800;
+  font-size: clamp(2.2rem, 8vw, 3.6rem);
+  color: rgba(255,255,255,0.95);
+  border: 1px solid rgba(255,255,255,0.03);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  cursor: pointer;
+  user-select:none;
+  transition: transform 120ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms ease, opacity 160ms ease;
+  box-shadow: 0 8px 30px rgba(4,6,15,0.5) inset, 0 6px 18px rgba(0,0,0,0.45);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* hover & active */
+.cell:hover{ transform: translateY(-6px) scale(1.01); }
+.cell:active{ transform: translateY(-2px) scale(0.99); }
+
+/* marker styles */
+.cell.x{ color: var(--accent-1); text-shadow: 0 6px 30px rgba(124,92,255,0.14); }
+.cell.o{ color: var(--accent-3); text-shadow: 0 6px 30px rgba(255,209,102,0.12); }
+
+/* winning highlight */
+.cell.win{
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 28px var(--win-glow);
+  transform: scale(1.03);
+  outline: 4px solid rgba(0,212,143,0.12);
+  border-radius: 18px;
+}
+
+/* controls */
+.controls{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:space-between;
+  margin-top: 8px;
+}
+.btn{
+  padding:10px 14px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.06);
+  color: white;
+  border-radius: 12px;
+  cursor:pointer;
+  font-weight:700;
+  letter-spacing:0.3px;
+  transition: transform 120ms ease, filter 120ms ease;
+}
+.btn:hover{ transform: translateY(-4px); filter:brightness(1.06); }
+.btn:active{ transform: translateY(-1px); }
+
+/* small toggle / options (if any) */
+.toggle{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  color: rgba(233,233,241,0.7);
+  font-size:0.92rem;
+  transform: scale(1.2);
+  margin-right: 6px;
+  cursor: pointer;
+}
+
+.theme-toggle{
+  margin-top: 10px;
+  text-align: center;
+}
+
+.toggle input{
+  transform: scale(1.1);
+  margin-right: 6px;
+  cursor: pointer;
+}
+
+
+/* footer */
+.footer{
+  margin-top:16px;
+  text-align:center;
+  font-size:0.86rem;
+  color: rgba(233,233,241,0.6);
+}
+
+/* focus styles for accessibility */
+.cell:focus{
+  outline: 3px solid rgba(124,92,255,0.14);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(124,92,255,0.06);
+}
+.btn:focus{ outline: 3px solid rgba(0,212,168,0.12); }
+
+/* small-screen adjustments */
+@media (max-width:480px){
+  :root{ --max-width:420px; }
+  .container{ padding:16px; border-radius:14px; }
+  .board{ gap:10px; }
+  .cell{ font-size: clamp(1.8rem, 10vw, 3rem); border-radius:12px; }
+  .status{ padding:10px; font-size:0.95rem; }
+  .controls{ flex-direction:column; align-items:stretch; gap:8px; }
+}
+
+/* extra: subtle animated gradient underline for title (fancy touch) */
+.title{
+  display:inline-block;
+  position:relative;
+  padding-bottom:6px;
+}
+.title::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:0;
+  width:60%;
+  height:4px;
+  border-radius:999px;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+  filter: blur(6px);
+  opacity:0.95;
+}
+
+/* tiny microinteraction for status emoji change */
+.status[data-state="win"]{ animation: popIn 420ms cubic-bezier(.2,.9,.3,1); }
+@keyframes popIn{
+  from{ transform: translateY(6px) scale(0.98); opacity:0; }
+  to{ transform: translateY(0) scale(1); opacity:1; }
+}
+
+/* When game is over, board looks a bit dim and non-interactive */
+.board.over .cell{
+  cursor: default;
+  opacity: 0.8;
+  transform: none;            /* cancel hover movement */
+}
+
+/* remove hover bounce when game is over */
+.board.over .cell:hover{
+  transform: none;
+}
+
+/* Small shake animation when user clicks after game over */
+.board.shake{
+  animation: deny-shake 0.18s linear;
+}
+
+@keyframes deny-shake{
+  0%   { transform: translateX(0); }
+  25%  { transform: translateX(-4px); }
+  50%  { transform: translateX(4px); }
+  75%  { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+/* ===== Winning Celebration Animation ===== */
+
+.cell.win {
+  animation: winPulse 0.9s ease-out forwards;
+}
+
+@keyframes winPulse {
+  0% {
+    transform: scale(1) rotate(0deg);
+    box-shadow: 0 0 0px rgba(0, 212, 143, 0.0);
+  }
+  30% {
+    transform: scale(1.12) rotate(-2deg);
+    box-shadow: 0 0 14px rgba(0, 212, 143, 0.35);
+  }
+  60% {
+    transform: scale(1.08) rotate(2deg);
+    box-shadow: 0 0 14px rgba(0, 212, 143, 0.45);
+  }
+  100% {
+    transform: scale(1.1) rotate(0deg);
+    box-shadow: 0 0 18px rgba(0, 212, 143, 0.65);
+  }
+}
+
+/* Status celebratory pop-in */
+.status[data-state="win"] {
+  animation: winTextPop 0.6s ease-out;
+}
+
+@keyframes winTextPop {
+  0% { transform: scale(0.92); opacity: 0.4; }
+  70% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* Local storage styles */
+
+.scoreboard {
+  margin: 10px 0;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.scoreboard span {
+  color: white;
+}
+
+.difficulty-toggle{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+#difficulty{
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(0,0,0,0.18);
+  color: #f5f5ff;
+  font-size: 0.85rem;
+  outline: none;
+  cursor: pointer;
+}
+
+/* remove ugly default arrow look (subtle only) */
+#difficulty::-ms-expand{
+  display:none;
+}
+
+/* light theme override */
+body.light-theme #difficulty{
+  background: #f5f6ff;
+  border-color: rgba(83,90,180,0.55);
+  color: #262a48;
+}

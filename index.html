@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe Game</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <main class="container">
+
+        <!-- Title Section -->
+    <header class="header">
+      <h1 class="title">Tic-Tac-Toe</h1>
+      <p class="subtitle">Two Player Game • X vs O</p>
+    </header>
+
+    <!-- Game Status -->
+    <section class="status" id="status">
+      Player <strong>X</strong>, your turn
+    </section>
+
+    <section class="scoreboard" id="scoreboard">
+      <div class="score-card score-x">
+        <span class="score-label">X Wins</span>
+        <span class="score-value" id="scoreX">0</span>
+      </div>
+
+      <div class="score-card score-o">
+        <span class="score-label">O Wins</span>
+        <span class="score-value" id="scoreO">0</span>
+      </div>
+
+      <div class="score-card score-draw">
+        <span class="score-label">Draws</span>
+        <span class="score-value" id="scoreDraws">0</span>
+      </div>
+    </section>
+
+
+    <button id="clearScores" class="btn" style="margin-top:8px;">Clear Scores</button>
+    
+    <section class="theme-toggle">
+    <label class="toggle">
+      <input type="checkbox" id="themeToggle" />
+      Light theme
+    </label>
+    </section>
+
+
+    <!-- Game Board -->
+    <section class="board" id="board">
+      <!-- 9 cells (3x3 grid) -->
+      <div class="cell" data-index="0"></div>
+      <div class="cell" data-index="1"></div>
+      <div class="cell" data-index="2"></div>
+      <div class="cell" data-index="3"></div>
+      <div class="cell" data-index="4"></div>
+      <div class="cell" data-index="5"></div>
+      <div class="cell" data-index="6"></div>
+      <div class="cell" data-index="7"></div>
+      <div class="cell" data-index="8"></div>
+    </section>
+
+    <!-- Control Buttons -->
+    <section class="controls">
+      <button id="resetBtn" class="btn">Reset Game</button>
+
+      <!-- Start Player Toggle -->
+    <label class="toggle">
+      <input type="checkbox" id="firstPlayerToggle" />
+      Start with O
+    </label>
+
+      <!-- VS Computer Toggle -->
+    <label class="toggle">
+      <input type="checkbox" id="vsComputerToggle" />
+      Play vs Computer 
+    </label>
+
+    <label class="toggle">
+    
+    <select id="difficulty">
+      <option value="easy">Easy</option>
+      <option value="hard" selected>Hard (AI)</option>
+    </select>
+    </label>
+    </section>
+
+    <footer class="footer">
+      © 2025 Made by <strong>Shaik Shoyab</strong>
+    </footer>
+
+
+    </main>
+    <script src="assets/js/game.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/app.js"></script>
+    
+</body>
+</html>
